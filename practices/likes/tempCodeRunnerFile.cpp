@@ -1,1 +1,4 @@
-:MemView(pX, 2, 4);
+        // if(current_node->data == element) 
+        // {
+        //     prev_node->next = current_node->next;
+        // }
