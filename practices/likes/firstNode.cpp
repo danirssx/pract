@@ -58,7 +58,7 @@ List *deleteNode(List *list, int element) {
         return list;
      };
 
-     while(current_node != NULL) {
+     while(current_node->next != NULL) {
         prev_node = current_node;
         current_node = current_node->next;
 
@@ -66,9 +66,7 @@ List *deleteNode(List *list, int element) {
         {
             prev_node->next = current_node->next;
         }
-        printf("%d => ", prev_node);
      }
-    printf("lo siento pa no consegui nada");
     return list;
 }
 
