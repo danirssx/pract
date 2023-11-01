@@ -116,6 +116,46 @@ List *addToListSpecific(List *list, int data, int target) {
     return list;
 }
 
+// Delete an element from a list
+
+enum class DeleteOption {
+    first,
+    last,
+    everyone
+};
+
+List *deleteNode(List *list, int target, DeleteOption option) {
+    Node *current_node = list->head;
+    Node *prev_node = NULL;
+    
+    if(option != DeleteOption::last) { // Delete the first element in case it's necessary
+        if(current_node->data == target) {
+            list->head = list->head->next;
+        }
+
+        if(option == DeleteOption::first) { // En caso de que solo quiera eliminar el primer elemento evitar la iteracion
+            return list;
+        }
+    };
+
+
+        while(current_node->next != NULL) {
+            prev_node = current_node;
+            current_node = current_node->next;
+
+            if(current_node->data == target) {
+                prev_node->next = current_node->next;
+
+                if(option == DeleteOption::first) {
+                     return list;
+
+                }
+            } 
+        }
+    
+    return list;
+};
+
 // Iteration to add new nodes in sequence
 
 void seqList(List *list, int data, int length, bool randomize) {
@@ -155,18 +195,20 @@ int main() {
     system("cls || clear");
 
     // Call the list
-    seqList(main_list, 1, 2, false);
-    seqList(main_list, 1, 2, false);
-    seqList(main_list, 1, 2, false);
+    seqList(main_list, 2, 3, false);
+    seqList(main_list, 2, 3, false);
+
     printList(main_list);
 
     // NULL value
     scanf("%*s");
     printf("\n");
 
-    // add new stuff
-    addToListSpecific(main_list, 8, 1);
+    // Delete element
+    deleteNode(main_list, 2, DeleteOption::everyone);
+
     printList(main_list);
+
 
     while (main_list->head != NULL) {
         Node *current_node = main_list->head;
