@@ -127,6 +127,7 @@ enum class DeleteOption {
 };
 
 List *deleteNode(List *list, int target, DeleteOption option) {
+    
     Node *current_node = list->head;
     Node *prev_node = NULL;
     
@@ -136,9 +137,28 @@ List *deleteNode(List *list, int target, DeleteOption option) {
             
             if(option == DeleteOption::first) { // En caso de que solo quiera eliminar el primer elemento evitar la iteracion
                 return list;
+            };
+            
+             if(option == DeleteOption::everyone) { // Hay que hacer una iteracion importante para rodar el head en caso de que en la primera posicion se repita varias veces el numero
+                if(current_node->next->data == target) {
+                    current_node = current_node->next;
+                    while(current_node->data == target) {
+                        list->head = list->head->next;
+                        current_node = current_node->next;
+                        if(current_node->next == nullptr) {
+                            break;
+                        }
+                    }
+                }
             }
         }
     };
+
+    // Vuelvo a inicializar la variable en el actual head
+
+    current_node = list->head;
+
+    // Aqui pretendo eliminar el primer elemento si no se encuentra en la 1ra posicion
 
     if(option == DeleteOption::first) {
         while(current_node->next != NULL) {
@@ -152,21 +172,25 @@ List *deleteNode(List *list, int target, DeleteOption option) {
         }
     }
 
+    // En caso de que quiera eliminar todos las x
 
     if(option == DeleteOption::everyone) {
         while(current_node->next != NULL) {
-                prev_node = current_node;
-                current_node = current_node->next;
+            prev_node = current_node;
+            current_node = current_node->next;
 
             if (current_node->data == target) {
-                if(current_node->next->data == target) { // En caso de que sigan repitiendose el mismo numero una y otra vez
-                  while(prev_node->next->data == target) {
-                    prev_node->next = prev_node->next->next;
-                    if(prev_node->next == nullptr) {
-                        break;
-                    }
+                if(current_node->next != nullptr) { // En caso de asegurarme que no estoy apuntando al ultimo elemento y evitar errores
+                    if(current_node->next->data == target) { // En caso de que sigan repitiendose el mismo numero una y otra vez
+                     while(prev_node->next->data == target) {
+                     prev_node->next = prev_node->next->next;
+                        if(prev_node->next == nullptr) {
+                         break;
+                     }
+                     }
+                 }
                 }
-                } else {
+                else {
                     prev_node->next = current_node->next;
                 }
             } 
@@ -254,11 +278,15 @@ int main() {
     system("cls || clear");
 
     // Call the list
-    seqList(main_list, 2, 2, true);
-    seqList(main_list, 2, 2, true);
-    seqList(main_list, 2, 2, true);
-    seqList(main_list, 2, 2, true);
-    seqList(main_list, 2, 2, true);
+    addToList(main_list, 2);
+    addToList(main_list, 2);
+    addToList(main_list, 2);
+    addToList(main_list, 2);
+    addToList(main_list, 4);
+    addToList(main_list, 5);
+    addToList(main_list, 5);
+    addToList(main_list, 3);
+    addToList(main_list, 2);
 
     printList(main_list);
 
@@ -267,7 +295,7 @@ int main() {
     printf("\n");
 
     // Delete element
-    deleteNode(main_list, 1, DeleteOption::everyone);
+    deleteNode(main_list, 2, DeleteOption::first);
 
     printList(main_list);
 

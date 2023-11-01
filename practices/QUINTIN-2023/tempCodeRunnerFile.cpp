@@ -1,3 +1,2 @@
-DeleteOption::first);
-
-    printList(main_list);
+prev_node = current_node;
+                // current_node = current_node->next;
