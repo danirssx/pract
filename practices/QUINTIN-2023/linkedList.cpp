@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cstdlib> // Include the necessary header for rand() and srand()
 
+const int MAX_RANGE = 2;
+
 typedef struct Node {
     int data;
     Node *next;
@@ -131,27 +133,48 @@ List *deleteNode(List *list, int target, DeleteOption option) {
     if(option != DeleteOption::last) { // Delete the first element in case it's necessary
         if(current_node->data == target) {
             list->head = list->head->next;
-        }
-
-        if(option == DeleteOption::first) { // En caso de que solo quiera eliminar el primer elemento evitar la iteracion
-            return list;
+            
+            if(option == DeleteOption::first) { // En caso de que solo quiera eliminar el primer elemento evitar la iteracion
+                return list;
+            }
         }
     };
 
-
-    if(option == DeleteOption::first || option == DeleteOption::everyone) {
+    if(option == DeleteOption::first) {
         while(current_node->next != NULL) {
             prev_node = current_node;
             current_node = current_node->next;
 
             if(current_node->data == target) {
                 prev_node->next = current_node->next;
-
-                if(option == DeleteOption::first) {
-                    return list;
-                    }
-                } 
+                return list;
+            }
         }
+    }
+
+
+    if(option == DeleteOption::everyone) {
+        while(current_node->next != NULL) {
+                prev_node = current_node;
+                current_node = current_node->next;
+
+            if (current_node->data == target) {
+                if(current_node->next->data == target) { // En caso de que sigan repitiendose el mismo numero una y otra vez
+                  while(prev_node->next->data == target) {
+                    prev_node->next = prev_node->next->next;
+                    if(prev_node->next == nullptr) {
+                        break;
+                    }
+                }
+                } else {
+                    prev_node->next = current_node->next;
+                }
+            } 
+
+            if(prev_node->next == NULL) {
+                return list;
+            }
+         }
     }
 
     if(option == DeleteOption::last) {
@@ -199,7 +222,7 @@ void seqList(List *list, int data, int length, bool randomize) {
 
     if(randomize) {
         for(int i = 1; i <= length; i++) {
-         int randomInRange = 1 + rand() % (10 - 1 + 1);
+         int randomInRange = 1 + rand() % (MAX_RANGE - 1 + 1);
          addToList(list, randomInRange);
         }
     } else {
@@ -231,9 +254,11 @@ int main() {
     system("cls || clear");
 
     // Call the list
-    seqList(main_list, 2, 3, false);
-    seqList(main_list, 2, 3, false);
-    seqList(main_list, 2, 3, false);
+    seqList(main_list, 2, 2, true);
+    seqList(main_list, 2, 2, true);
+    seqList(main_list, 2, 2, true);
+    seqList(main_list, 2, 2, true);
+    seqList(main_list, 2, 2, true);
 
     printList(main_list);
 
@@ -242,7 +267,7 @@ int main() {
     printf("\n");
 
     // Delete element
-    deleteNode(main_list, 2, DeleteOption::last);
+    deleteNode(main_list, 1, DeleteOption::everyone);
 
     printList(main_list);
 
