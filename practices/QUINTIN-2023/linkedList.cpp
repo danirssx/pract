@@ -139,6 +139,7 @@ List *deleteNode(List *list, int target, DeleteOption option) {
     };
 
 
+    if(option == DeleteOption::first || option == DeleteOption::everyone) {
         while(current_node->next != NULL) {
             prev_node = current_node;
             current_node = current_node->next;
@@ -147,11 +148,46 @@ List *deleteNode(List *list, int target, DeleteOption option) {
                 prev_node->next = current_node->next;
 
                 if(option == DeleteOption::first) {
-                     return list;
-
-                }
-            } 
+                    return list;
+                    }
+                } 
         }
+    }
+
+    if(option == DeleteOption::last) {
+        int iterador = 0; // Voy a contar la cantidad de veces en las que encuentro el valor
+        int buscador = 0; 
+
+        while(current_node->next != NULL) {
+            prev_node = current_node;
+            current_node = current_node->next;
+
+            if(current_node->data == target) {
+               iterador = iterador + 1;
+
+            }
+        }
+
+        // Regreso los valores
+        current_node = list->head;
+        prev_node = NULL;
+
+        printf("%d Dani\n ", iterador);
+
+        while(current_node->next != NULL) {
+            prev_node = current_node;
+            current_node = current_node->next;
+
+            if(current_node->data == target) {
+                buscador = buscador + 1;
+                if(iterador == buscador) {
+                    prev_node->next = current_node->next;
+                    return list;
+                }
+            }
+        }
+    }
+    
     
     return list;
 };
@@ -197,6 +233,7 @@ int main() {
     // Call the list
     seqList(main_list, 2, 3, false);
     seqList(main_list, 2, 3, false);
+    seqList(main_list, 2, 3, false);
 
     printList(main_list);
 
@@ -205,7 +242,7 @@ int main() {
     printf("\n");
 
     // Delete element
-    deleteNode(main_list, 2, DeleteOption::everyone);
+    deleteNode(main_list, 2, DeleteOption::last);
 
     printList(main_list);
 
