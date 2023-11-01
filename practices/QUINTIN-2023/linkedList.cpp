@@ -71,6 +71,14 @@ List *addToListSpecific(List *list, int data, int target) {
     Node *prev_node = NULL;
     bool cond = false;
 
+    if(current_node->data == target) { // En caso de que tenga que sustituir en la 1ra posicion
+        prev_node = current_node;
+        current_node = current_node->next;
+
+        prev_node->next = createNode(data);
+        prev_node->next->next = current_node;
+    }
+
     if(current_node == NULL) { // En caso de que no haya ningun elemento
         list->head = createNode(data);
         printf("No hay ningun element en la lista que cumple la condicion");
@@ -80,13 +88,20 @@ List *addToListSpecific(List *list, int data, int target) {
             current_node = current_node->next;
 
             if(current_node->data == target) { // Coincide el elemento y por lo tanto lo agrego en la siguiente posicion
+                cond = true;
+
+
+                if(current_node->next != NULL) {
                 prev_node = prev_node->next;
                 current_node = current_node->next;
 
                 prev_node->next = createNode(data);
                 prev_node->next->next = current_node;
 
-                cond = true;
+                } else { // En caso de que sea la ultima posicion
+                    prev_node = current_node;
+                    prev_node->next = createNode(data);
+                }
 
                 printf("%d => ", prev_node->data);
             };
@@ -140,7 +155,9 @@ int main() {
     system("cls || clear");
 
     // Call the list
-    seqList(main_list, 1, 5, true);
+    seqList(main_list, 1, 2, false);
+    seqList(main_list, 1, 2, false);
+    seqList(main_list, 1, 2, false);
     printList(main_list);
 
     // NULL value
@@ -148,7 +165,7 @@ int main() {
     printf("\n");
 
     // add new stuff
-    addToListSpecific(main_list, 8, 6);
+    addToListSpecific(main_list, 8, 1);
     printList(main_list);
 
     while (main_list->head != NULL) {
