@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <iostream>
-
+#include <cstdlib>  
 
 // Declare the the Node and the List
 
@@ -53,9 +53,7 @@ List *deleteNode(List *list, int element) {
     Node *prev_node = NULL;
 
      if(current_node->data == element) {
-        printf("TRUE\n");
         list->head = list->head->next;
-        return list;
      };
 
      while(current_node->next != NULL) {
@@ -65,7 +63,7 @@ List *deleteNode(List *list, int element) {
         if(current_node->data == element) 
         {
             prev_node->next = current_node->next;
-        }
+        }  
      }
     return list;
 }
@@ -96,13 +94,16 @@ void expList(List *list, int iterador, int length) {
 // Main function
 
 int main() {
+
+    system("cls || clear");
+
     List *main_list = createList();
 
     // Create the list
     expList(main_list, 3, 5);
     expList(main_list, 3, 5);
 
-    deleteNode(main_list, 6);
+    deleteNode(main_list, 12);
 
     printList(main_list);
 
