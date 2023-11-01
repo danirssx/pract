@@ -2,7 +2,8 @@
 #include <iostream>
 #include <cstdlib> // Include the necessary header for rand() and srand()
 
-const int MAX_RANGE = 2;
+using namespace std;
+const int MAX_RANGE = 10;
 
 typedef struct Node {
     int data;
@@ -24,10 +25,8 @@ List *createList() {
 
 Node *createNode(int data) {
     Node *new_node = new Node;
-    if(new_node) {
-        new_node->data = data;
-        new_node->next = NULL;
-    }
+    new_node->data = data;
+    new_node->next = NULL;
     return new_node;
 }
 
@@ -233,8 +232,7 @@ List *deleteNode(List *list, int target, DeleteOption option) {
                 }
             }
         }
-    }
-    
+    }  
     
     return list;
 };
@@ -265,11 +263,34 @@ void printList(List *list) {
     printf("Linked list elements: ");
 
     while(current != NULL) {
+        
         printf("%d -> ", current->data);
         current = current->next;
     }
 
     printf("NULL\n");
+}
+
+List *sort(List *list) {
+    Node *current_node = list->head;
+    int aux = 0;
+    
+    while(current_node->next != NULL) {
+        cout << "Ordenando " << current_node->data << endl;
+        if(current_node->data > current_node->next->data) {
+            cout << "swap de " << current_node->data << " con esto "<< current_node->next->data << endl;
+            aux = current_node->data;
+            current_node->data = current_node->next->data;
+            current_node->next->data = aux; 
+            current_node = list->head;
+
+            // Print list
+            printList(list);
+        } else {
+            current_node = current_node->next;
+        }
+    }
+    return list;
 }
 
 int main() {
@@ -278,15 +299,7 @@ int main() {
     system("cls || clear");
 
     // Call the list
-    addToList(main_list, 2);
-    addToList(main_list, 2);
-    addToList(main_list, 2);
-    addToList(main_list, 2);
-    addToList(main_list, 4);
-    addToList(main_list, 5);
-    addToList(main_list, 5);
-    addToList(main_list, 3);
-    addToList(main_list, 2);
+    seqList(main_list, 10, 5, true);
 
     printList(main_list);
 
@@ -295,7 +308,7 @@ int main() {
     printf("\n");
 
     // Delete element
-    deleteNode(main_list, 2, DeleteOption::first);
+    sort(main_list);
 
     printList(main_list);
 
