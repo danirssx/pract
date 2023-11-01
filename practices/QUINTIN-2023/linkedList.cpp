@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdlib> // Include the necessary header for rand() and srand()
 
-
 typedef struct Node {
     int data;
     Node *next;
@@ -65,8 +64,42 @@ List *addToListBeggining(List *list, int data) {
     return list;
 }
 
-// Delete an element
+// Add an element in an specific position 1.3)
 
+List *addToListSpecific(List *list, int data, int target) {
+    Node *current_node = list->head;
+    Node *prev_node = NULL;
+    bool cond = false;
+
+    if(current_node == NULL) { // En caso de que no haya ningun elemento
+        list->head = createNode(data);
+        printf("No hay ningun element en la lista que cumple la condicion");
+    } else {
+        while(current_node->next != NULL) {
+            prev_node = current_node;
+            current_node = current_node->next;
+
+            if(current_node->data == target) { // Coincide el elemento y por lo tanto lo agrego en la siguiente posicion
+                prev_node = prev_node->next;
+                current_node = current_node->next;
+
+                prev_node->next = createNode(data);
+                prev_node->next->next = current_node;
+
+                cond = true;
+
+                printf("%d => ", prev_node->data);
+            };
+        }
+
+        if(!cond) {
+            prev_node = current_node;
+            prev_node->next = createNode(data);
+            printf("No coincide con ningun elemento de la lista por lo que se agregara al final\n\n");
+        }
+    }
+    return list;
+}
 
 // Iteration to add new nodes in sequence
 
@@ -107,14 +140,15 @@ int main() {
     system("cls || clear");
 
     // Call the list
-    seqList(main_list, 1, 5, false);
+    seqList(main_list, 1, 5, true);
     printList(main_list);
 
     // NULL value
     scanf("%*s");
+    printf("\n");
 
     // add new stuff
-    addToListBeggining(main_list, 6);
+    addToListSpecific(main_list, 8, 6);
     printList(main_list);
 
     while (main_list->head != NULL) {
