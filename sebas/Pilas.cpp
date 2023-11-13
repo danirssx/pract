@@ -7,6 +7,8 @@ using namespace std;
 
 // DANIEL
 
+// Daniel
+
 struct Pila
 {
     int dato;
