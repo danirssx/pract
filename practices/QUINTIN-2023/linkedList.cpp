@@ -275,13 +275,13 @@ List *sort(List *list) {
     Node *current_node = list->head;
     int aux = 0;
     
-    while(current_node->next != NULL) {
-        cout << "Ordenando " << current_node->data << endl;
+    while(current_node->next != NULL) {//mientras no sea el ultimo nodo'
         if(current_node->data > current_node->next->data) {
-            cout << "swap de " << current_node->data << " con esto "<< current_node->next->data << endl;
             aux = current_node->data;
             current_node->data = current_node->next->data;
-            current_node->next->data = aux; 
+            current_node->next->data = aux;
+
+            // Vuelve al head 
             current_node = list->head;
 
             // Print list

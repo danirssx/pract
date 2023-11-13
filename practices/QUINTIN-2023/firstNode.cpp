@@ -95,7 +95,7 @@ void expList(List *list, int iterador, int length) {
 
 int main() {
 
-    system("cls || clear");
+    system("cls");
 
     List *main_list = createList();
 

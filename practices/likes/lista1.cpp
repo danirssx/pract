@@ -18,10 +18,8 @@ List *createList() {
 
 Node *createNode(int data) {
     Node *new_node = new Node;
-    if (new_node) {
-        new_node->data = data;
-        new_node->next = NULL;
-    }
+    new_node->data = data;
+    new_node->next = NULL;
     return new_node;
 }
 
