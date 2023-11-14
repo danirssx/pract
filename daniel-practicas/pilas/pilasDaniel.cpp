@@ -44,6 +44,8 @@ Pila* Apilar(Pila **pila, int valor) {
 };
 
 Pila* Desapilar(Pila **pila) {
+    int adn;
+
     if (!PilaVacia(*pila)) {
         *pila = (*pila)->next;
     } else {
@@ -52,6 +54,19 @@ Pila* Desapilar(Pila **pila) {
 
     return *pila;
 };
+
+// Lectura de la pila
+
+void mostrarPila (Pila *pila) {
+    while (!PilaVacia(pila)) {
+        cout << Tope(pila) << " ";
+        Desapilar(&pila);
+    }
+};
+
+// Ejercicios
+// 
+// 1.1
 
 Pila* aggFondo(Pila **pila, int valor) {
     Pila *actual = *pila;
@@ -76,22 +91,74 @@ Pila* aggFondo(Pila **pila, int valor) {
     return actual;
 }
 
-// Lectura de la pila
+Pila* mezclarPilas(Pila **pila1, Pila **pila2) {
+    Pila *aux1 = *pila1;
+    Pila *aux2 = *pila2;
+    Pila *temporal = NULL;
+    Pila *nuevaPila = NULL;
 
-void mostrarPila (Pila *pila) {
-    while (!PilaVacia(pila)) {
-        cout << Tope(pila) << " ";
-        Desapilar(&pila);
+    int elemento1, elemento2, auxelemento, adn;
+
+    if (PilaVacia(aux1) || PilaVacia(aux2)) { // En caso de que la pila este vacia
+        return 0;
+    } else {
+        while(!PilaVacia(aux1)) {
+
+            elemento1 = Tope(aux1);
+            aux1 = Desapilar(&aux1);
+
+            while(!PilaVacia(aux2)) {
+                elemento2 = Tope(aux2);
+                aux2 = Desapilar(&aux2);
+
+                    cout << "Indica cantidad de elementos a ser colocados en la pila:" << elemento2 << endl;
+
+            // Evaluo los elementos
+
+             if(elemento1 <= elemento2) {
+                temporal = Apilar(&temporal, elemento1);
+                aux2 = Apilar(&aux2, elemento2);
+                break;
+            }  else { // If elemento 2 <= elemento1
+                temporal = Apilar(&temporal, elemento2);
+            };
+
+            // En caso de que se hayan acabado los valores
+
+            if(PilaVacia(aux1) && !PilaVacia(aux2)) {
+                temporal = Apilar(&temporal, elemento2);
+            }
+
+            if(PilaVacia(aux2) && !PilaVacia(aux1)) {
+                temporal = Apilar(&temporal, elemento1);
+            };
+            }
+        }
     }
+
+    // while(temporal != NULL) {
+    //     auxelemento = Tope(temporal);
+    //     temporal = Desapilar(&temporal);
+    //     nuevaPila = Apilar(&nuevaPila, auxelemento);
+
+    // };
+
+    return temporal;
 };
+
+
 
 // Main
 
 int main() {
     int cantidad, i, valor;
     Pila *pila = NULL;
+    Pila *pilaAparte = NULL;
     cout << "Indica cantidad de elementos a ser colocados en la pila:";
     cin >> cantidad;
+
+    // Nueva pila
+    Pila *pilaMezclada = NULL;
 
     i = 0;
 
@@ -99,18 +166,25 @@ int main() {
         cout << "Indica valor a colocar: ";
         cin >> valor;
         Apilar(&pila, valor);
+        Apilar(&pilaAparte, (i+2));
         i++;
     };
 
-    cout << "Contenido de la Pila: " << endl;  
+    cout << "Contenido de las Pila: " << endl;  
     mostrarPila(pila);
+    cout << "\n " << endl;
+    mostrarPila(pilaAparte);
 
-    cout << "Contenido de la pila al poner de fondo 4:" << endl;
+    cout << "\n\nContenido de las pilas:" << endl;
 
-    // Agregar al fondo de la pila
+    // Crear la nueva pilota
 
-    pila = aggFondo(&pila, 4);
-    mostrarPila(pila);
+    pilaMezclada = mezclarPilas(&pila, &pilaAparte);
+
+
+    cout << "\n\n PILA FINAL: " << endl;
+
+    mostrarPila(pilaMezclada);
 
     return 0;
 }
