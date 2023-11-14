@@ -19,7 +19,7 @@ nodo *crear_nodo(int elemento, nodo *direccion)
     return p;
 };
 
-agregar_nodo_inicio(nodo **head, int elemento) // pasar direccion de head
+int agregar_nodo_inicio(nodo **head, int elemento) // pasar direccion de head
 {
     nodo **pcabeza = head;                       // copia direccion de mi variable cabeza
     nodo *segundo = *head;                       // apunta al anterior primer nodo de la lista
@@ -29,7 +29,7 @@ agregar_nodo_inicio(nodo **head, int elemento) // pasar direccion de head
     return 0;
 }
 
-agregar_nodo_final(nodo *head, int elemento) // pasar head y elemnto
+int agregar_nodo_final(nodo *head, int elemento) // pasar head y elemnto
 {
     nodo *final = crear_nodo(elemento, NULL);
     nodo *actual = head;
@@ -42,7 +42,7 @@ agregar_nodo_final(nodo *head, int elemento) // pasar head y elemnto
     return 0;
 }
 
-remover_nodos(nodo **phead, int elemento)
+int remover_nodos(nodo **phead, int elemento)
 {
     nodo *actual = *phead;
     nodo *previo = NULL;
@@ -81,7 +81,7 @@ remover_nodos(nodo **phead, int elemento)
     return 0;
 };
 
-imprimir_lista(nodo *head)
+int imprimir_lista(nodo *head)
 {
     nodo *actual = head;
 
