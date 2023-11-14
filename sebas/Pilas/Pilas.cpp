@@ -3,12 +3,6 @@ using namespace std;
 // Operaciones básicas de Pilas
 // Elaborado por Lia Mendoza
 
-// PENE CUCA PENE CUCA
-
-// DANIEL
-
-// Daniel
-
 struct Pila
 {
     int dato;
