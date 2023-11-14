@@ -1,105 +1,116 @@
 #include <iostream>
 using namespace std;
-// Operaciones básicas de Pilas
-// Elaborado por Lia Mendoza
 
-// PENE CUCA PENE CUCA
+// Operaciones básicas
 
-// DANIEL
-
-// Daniel
-
-struct Pila
-{
+struct Pila {
     int dato;
-    Pila *prox;
+    Pila *next;
 };
 
-Pila *crearPila(int valor)
-{
+Pila *crearPila(int valor) {
     Pila *nuevo = new Pila;
-    nuevo->dato = valor;
-    nuevo->prox = NULL;
+
+    if(nuevo) {
+        nuevo->dato = valor;
+        nuevo->next = NULL;
+    }
+
     return nuevo;
-}
 
-bool PilaVacia(Pila *pila)
-{
+};
+
+bool PilaVacia(Pila *pila) {
     return pila == NULL;
-}
 
-int Tope(Pila *pila)
-{
-    if (!PilaVacia(pila))
+};
+
+int Tope(Pila *pila) {
+    if(!PilaVacia(pila)) {
         return pila->dato;
-    else
+    } else {
         return -111;
-}
+    }
+};
 
-void Apilar(Pila **pila, int valor)
-{
+// Agregar y alterar la pila
+
+Pila* Apilar(Pila **pila, int valor) {
     Pila *nuevo = crearPila(valor);
-    nuevo->prox = *pila;
+    nuevo->next = *pila;
     *pila = nuevo;
+    
+    return nuevo;
+};
+
+Pila* Desapilar(Pila **pila) {
+    if (!PilaVacia(*pila)) {
+        *pila = (*pila)->next;
+    } else {
+        cout << "Pila vacia imposible de desapilar" << endl;
+    }
+
+    return *pila;
+};
+
+Pila* aggFondo(Pila **pila, int valor) {
+    Pila *actual = *pila;
+    Pila *auxPila = NULL;
+
+    // Desenredar pila actual
+
+    while(!PilaVacia(actual)) {
+        auxPila = Apilar(&auxPila, actual->dato);
+        actual = Desapilar(&actual);
+    };
+
+    Apilar(&actual, valor);
+
+    // Volver a aclopar
+
+    while(!PilaVacia(auxPila)) {
+        actual = Apilar(&actual, auxPila->dato);
+        auxPila = Desapilar(&auxPila);
+    };
+
+    return actual;
 }
 
-void Desapilar(Pila **pila)
-{ // elimina el ultimo elemento en el tope, basicamente pop()
-    if (!PilaVacia(*pila))
-        *pila = (*pila)->prox;
-    else
-        cout << "Pila vacia imposible desapilar " << endl;
-}
+// Lectura de la pila
 
-void mostrarPila(Pila *pila)
-{
-    while (!PilaVacia(pila))
-    {
-        cout << Tope(pila) << "  ";
+void mostrarPila (Pila *pila) {
+    while (!PilaVacia(pila)) {
+        cout << Tope(pila) << " ";
         Desapilar(&pila);
     }
-}
+};
 
-int agrgr_alfondo(Pila **principal, int dato) // apunta al ptope de la pila directamente
-{
-    Pila *auxiliar = NULL;
-    Pila *actual = NULL;
+// Main
 
-    while (!PilaVacia(*principal))
-    {
-        actual = *principal;
-        Apilar(&auxiliar, actual->dato);
-        Desapilar(principal);
-    }
-    Apilar(principal, dato); // Nuevo elemento al fondo
-    while (!PilaVacia(auxiliar))
-    {
-        actual = auxiliar;
-        Apilar(principal, actual->dato);
-        Desapilar(&auxiliar);
-    }
-    return 0;
-}
-
-main()
-{
+int main() {
     int cantidad, i, valor;
     Pila *pila = NULL;
-    cout << "Indica cantidad de elementos a ser colocados en la pila: ";
+    cout << "Indica cantidad de elementos a ser colocados en la pila:";
     cin >> cantidad;
+
     i = 0;
-    while (i != cantidad)
-    {
+
+    while(i != cantidad) {
         cout << "Indica valor a colocar: ";
         cin >> valor;
         Apilar(&pila, valor);
         i++;
-    }
+    };
 
-    cout << "Contenido de la Pila: " << endl;
+    cout << "Contenido de la Pila: " << endl;  
     mostrarPila(pila);
 
-    cout << "Contenido de la Pila al poner de fondo 333: " << endl;
-    agrgr_alfondo(&pila, 333);
+    cout << "Contenido de la pila al poner de fondo 4:" << endl;
+
+    // Agregar al fondo de la pila
+
+    pila = aggFondo(&pila, 4);
     mostrarPila(pila);
+
+    return 0;
 }
